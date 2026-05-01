@@ -1,20 +1,20 @@
 const API_URL = '/api';
 
-// State
+// store some basic data locally
 let state = {
     token: localStorage.getItem('token'),
     user: JSON.parse(localStorage.getItem('user') || 'null'),
     isLogin: true
 };
 
-// DOM Elements
+// grab UI elements we need to toggle
 const authView = document.getElementById('auth-view');
 const dashView = document.getElementById('dashboard-view');
 const authForm = document.getElementById('auth-form');
 const toggleAuth = document.getElementById('toggle-auth');
 const logoutBtn = document.getElementById('logout-btn');
 
-// Initialize
+// check if user was already logged in on load
 function init() {
     if (state.token && state.user) {
         showDashboard();
@@ -23,7 +23,7 @@ function init() {
     }
 }
 
-// Authentication
+// handle login / signup form toggling
 toggleAuth.addEventListener('click', () => {
     state.isLogin = !state.isLogin;
     document.getElementById('auth-title').innerText = state.isLogin ? 'Welcome to Nexus' : 'Create an Account';
@@ -88,7 +88,7 @@ logoutBtn.addEventListener('click', () => {
     showAuth();
 });
 
-// Navigation
+// simple view switcher between login and dashboard
 function showAuth() {
     authView.classList.remove('hidden');
     dashView.classList.add('hidden');
@@ -111,7 +111,7 @@ function showDashboard() {
     loadDashboard();
 }
 
-// API Calls
+// wrapper for fetch to easily append the auth token
 async function api(endpoint, options = {}) {
     options.headers = {
         ...options.headers,
@@ -214,7 +214,7 @@ async function updateTaskStatus(taskId, status) {
     }
 }
 
-// Modals
+// generic setup for any modal on the page
 const setupModal = (btnId, modalId, closeClass) => {
     const btn = document.getElementById(btnId);
     const modal = document.getElementById(modalId);
@@ -228,7 +228,7 @@ const setupModal = (btnId, modalId, closeClass) => {
 setupModal('new-project-btn', 'project-modal', '.close-modal');
 setupModal('new-task-btn', 'task-modal', '.close-modal');
 
-// Form Submissions
+// handle form submits for new projects and tasks
 document.getElementById('project-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('proj-name').value;

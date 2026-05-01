@@ -1,0 +1,11 @@
+Nexus - Team Task Manager
+
+This is a full-stack task management application I built to handle role-based access for teams (Admins and Members). 
+
+Here is what the project does:
+- Secure login and registration using JWT authentication.
+- Admins have full control: they can create new projects, assign tasks to members, and view a global progress dashboard.
+- Team members get a personalized dashboard showing only their assigned tasks. They can update task statuses (Pending, In Progress, Completed).
+- It is built using Node.js, Express, and MongoDB for the backend, with a custom vanilla HTML/CSS/JS frontend.
+
+To run the project, just install the packages with "npm install", make sure your MongoDB connection string is in the .env file, and start the server using "npm run dev". The site will run on localhost:3000.

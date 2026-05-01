@@ -12,9 +12,7 @@ async function connectDB() {
     }
 }
 
-// ========================
-// Mongoose Schemas & Models
-// ========================
+// define collections for mongo
 
 const userSchema = new mongoose.Schema({
     name:     { type: String, required: true, trim: true },

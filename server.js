@@ -13,7 +13,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const JWT_SECRET = process.env.JWT_SECRET || 'supersecretkey123';
 
-// Auth Middleware
+// check if user is logged in
 const authenticate = (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
     if (!token) return res.status(401).json({ error: 'Unauthorized' });
@@ -31,9 +31,7 @@ const requireAdmin = (req, res, next) => {
     next();
 };
 
-// =======================
-// AUTH ENDPOINTS
-// =======================
+// auth stuff
 app.post('/api/auth/signup', async (req, res) => {
     const { name, email, password, role } = req.body;
     if (!name || !email || !password) return res.status(400).json({ error: 'All fields are required' });
@@ -82,9 +80,7 @@ app.get('/api/users', authenticate, async (req, res) => {
     }
 });
 
-// =======================
-// PROJECTS ENDPOINTS
-// =======================
+// project routes
 app.get('/api/projects', authenticate, async (req, res) => {
     try {
         const projects = await Project.find().populate('created_by', 'name');
@@ -113,9 +109,7 @@ app.post('/api/projects', authenticate, requireAdmin, async (req, res) => {
     }
 });
 
-// =======================
-// TASKS ENDPOINTS
-// =======================
+// tasks logic
 app.get('/api/tasks', authenticate, async (req, res) => {
     try {
         let filter = {};
@@ -184,9 +178,7 @@ app.put('/api/tasks/:id/status', authenticate, async (req, res) => {
     }
 });
 
-// =======================
-// DASHBOARD ENDPOINTS
-// =======================
+// get dashboard stats
 app.get('/api/dashboard', authenticate, async (req, res) => {
     try {
         const today = new Date();
