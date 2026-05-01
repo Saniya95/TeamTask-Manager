@@ -176,6 +176,7 @@ async function loadTasks() {
                 <span>Assignee: ${t.assignee_name || 'Unassigned'}</span>
                 <span>Due: ${t.due_date ? new Date(t.due_date).toLocaleDateString() : 'None'}</span>
             </div>
+            ${state.user.role === 'admin' ? '' : `
             <div class="task-actions">
                 <select onchange="updateTaskStatus('${t.id}', this.value)" ${state.user.role === 'member' && String(t.assigned_to) !== String(state.user.id) ? 'disabled' : ''}>
                     <option value="pending" ${t.status === 'pending' ? 'selected' : ''}>Pending</option>
@@ -183,6 +184,7 @@ async function loadTasks() {
                     <option value="completed" ${t.status === 'completed' ? 'selected' : ''}>Completed</option>
                 </select>
             </div>
+            `}
         </div>
     `).join('') || '<p style="color: var(--text-muted)">No tasks found.</p>';
 }
